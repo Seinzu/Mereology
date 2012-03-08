@@ -1,5 +1,9 @@
 # Mereology #
 
+>Mereology (from the Greek μερος, ‘part’) is the theory of parthood relations: of the relations of part to whole and the 
+>relations of part to part within a whole.
+> Varzi, Achille, "Mereology", The Stanford Encyclopedia of Philosophy (Spring 2011 Edition), Edward N. Zalta (ed.), URL = <http://plato.stanford.edu/archives/spr2011/entries/mereology/>. 
+
 ## Introduction ##
 
 Mereology is a simple JavaScript helper object designed to abstract some of the functionality required for MVC. The basic concept
