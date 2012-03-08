@@ -27,6 +27,8 @@ Mereology = (function () {
     }
     // Create the object
     Mereology = {};
+    // Setting a version number
+    Mereology.VERSION = 0.1;
     // A couple of helper functions - These are loosely based on how CoffeeScript handles inheritance (which is similar
     // to how Google do in turn).
     // A reference to hasOwnProperty to make extension work better
