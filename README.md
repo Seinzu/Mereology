@@ -34,7 +34,7 @@ The final step is to include a call to the parent in your constructor like so:
         ExampleThing.__super__.constructor.apply(this, arguments);
     }
 
-Now, you can do the specific things that are required for
+Now, you can do the specific things that are required for the type of thing that you want to make.
 
 ### Model ###
 
