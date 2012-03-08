@@ -121,6 +121,10 @@ Mereology = (function () {
             this.el = $(this.selector);
         };
 
+        View.prototype.render = function () {
+          // do nothing by default
+        };
+
         return View;
 
     })();
