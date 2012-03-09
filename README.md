@@ -162,9 +162,9 @@ add an array of items to the _Collection_.
     var collection = new Mereology.Collection({}, ExampleModel);
     collection.addMembers($("li"));
 
-The second argument is a constructor to wrap around the members of the array provided in the first argument. If nothing
-is supplied here then the members will be left as they are. The intention though is that you provide a model. The model
-constructor will be passed the element as its first argument so it is best to write your _Model_ in this way:
+The second argument is a constructor or a callback that will be wrapped around the members of the array provided in the first argument.
+If nothing is supplied here then the members will be left as they are. The intention though is that you provide a model.
+The model constructor will be passed the element as its first argument so it is best to write your Model in this way:
 
     var ExampleModel = (function (m) {
         m.__extends(ExampleModel, m.Model);
