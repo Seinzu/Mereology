@@ -52,11 +52,26 @@ Mereology = (function () {
         child.__super__ = parent.prototype;
         return child;
     };
+
+    Mereology.Base = (function() {
+
+        function Base (){
+
+        }
+
+        Base.prototype.mereology = true;
+
+        return Base;
+
+    })();
+
     /**
      *
      * @type {*}
      */
     Mereology.Model = (function () {
+
+        Mereology.__extends(Model, Mereology.Base);
 
         function Model() {
             var event, self, targetItem, currentEvent;
@@ -76,6 +91,7 @@ Mereology = (function () {
                     });
                 }
             }
+            Model.__super__.constructor.apply(this, arguments);
         }
 
         Model.prototype.handleEvent = function (e) {
@@ -112,10 +128,13 @@ Mereology = (function () {
 
     Mereology.View = (function () {
 
+        Mereology.__extends(View, Mereology.Base);
+
         function View(el) {
             this.el = $(el);
             this.selector = el;
             this.render();
+            View.__super__.constructor.apply(this, arguments);
         }
 
         View.prototype.refreshElement = function () {
@@ -132,6 +151,8 @@ Mereology = (function () {
 
     Mereology.Collection = (function () {
 
+        Mereology.__extends(Collection, Mereology.Base);
+
         function Collection(members, wrapper) {
             this.members = new Array();
             if (arguments.length > 1) {
@@ -143,21 +164,29 @@ Mereology = (function () {
             if (arguments.length > 0) {
                 this.addMembers(members);
             }
+            Collection.__super__.constructor.apply(this, arguments);
         }
 
         Collection.prototype.addMembers = function (members) {
             var self;
             self = this;
             $.each(members, function (idx, member) {
-                self.members.push(self.wrap(member));
+                var mem = self.wrap(member);
+                self.members.push(mem);
             });
         };
 
         Collection.prototype.wrap = function (payload) {
-            if (this.wrapper === false) {
-                return payload;
+            // Test whether we have a callback
+            if (this.wrapper.prototype.mereology != undefined){
+                return new this.wrapper(payload);
             }
-            return new this.wrapper(payload);
+            if (typeof this.wrapper === "function"){
+                // Yes - it's a callback
+                return this.wrapper.call(this, payload);
+            }
+            // We can't wrap here at all so give the payload back
+            return payload;
         };
 
         return Collection;
@@ -167,4 +196,3 @@ Mereology = (function () {
     return Mereology;
 
 })();
-
