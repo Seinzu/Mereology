@@ -69,7 +69,7 @@ Mereology = (function () {
                         targetItem = $(currentEvent.target);
                     }
                     else {
-                        targetItem = $(this.element);
+                        targetItem = $(this.el);
                     }
                     targetItem.bind(currentEvent.event, {event:event, callback:currentEvent.callback}, function (e) {
                         self.handleEvent(e);
