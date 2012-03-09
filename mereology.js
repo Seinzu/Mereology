@@ -25,6 +25,7 @@ Mereology = (function () {
     function isArray(a) {
         return Object.prototype.toString.apply(a) === "[object Array]";
     }
+
     // Create the object
     Mereology = {};
     // Setting a version number
@@ -122,13 +123,48 @@ Mereology = (function () {
         };
 
         View.prototype.render = function () {
-          // do nothing by default
+            // do nothing by default
         };
 
         return View;
 
     })();
 
+    Mereology.Collection = (function () {
+
+        function Collection(members, wrapper) {
+            this.members = new Array();
+            if (arguments.length > 1) {
+                this.wrapper = wrapper;
+            }
+            else {
+                this.wrapper = false;
+            }
+            if (arguments.length > 0) {
+                this.addMembers(members);
+            }
+        }
+
+        Collection.prototype.addMembers = function (members) {
+            var self;
+            self = this;
+            $.each(members, function (idx, member) {
+                self.members.push(self.wrap(member));
+            });
+        };
+
+        Collection.prototype.wrap = function (payload) {
+            if (this.wrapper === false) {
+                return payload;
+            }
+            return new this.wrapper(payload);
+        };
+
+        return Collection;
+
+    })();
+
     return Mereology;
 
 })();
+
