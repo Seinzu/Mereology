@@ -13,8 +13,9 @@ Mereology assumes that you are using jQuery.
 
 ## Usage ##
 
-There are two types of thing provided in Mereology: Views and Models. They are intended to be used together. The way to produce
-each thing is pretty similar. First make an object, passing the Mereology object in:
+There are three types of thing provided in Mereology: Collections, Views and Models. They are intended to be used together.
+
+The way to produce Views and Models is mostly uniform. First make an object, passing the Mereology object in:
 
     var ExampleThing = (function(m){
 
@@ -39,7 +40,7 @@ The final step is to include a call to the parent in your constructor like so:
         ExampleThing.__super__.constructor.apply(this, arguments);
     }
 
-Now, you can do the specific things that are required for the type of thing that you want to make.
+Now, you can do the specific things that are required for the type of thing that you wanted to make.
 
 ### Model ###
 
@@ -80,7 +81,7 @@ You can [see this in context](http://jsfiddle.net/seinzu/Md69D/1/) below:
 
         ExampleModel.prototype.test = function () {
             alert("click event fired");
-        }
+        }ListItem
 
         return ExampleModel;
 
@@ -142,3 +143,39 @@ Where _view_ is the variable that our new View has been assigned to, [see below 
             view = new ExampleView($("#status"));
             model.listen("eventReferent", view, view.test);
     });
+
+### Collection ###
+
+Collections are just basically a bunch of models all stuffed together into a big thing (you could make them a
+bunch of whatever you want but the idea is that you pop your models in there). As they are generally a glorified array
+you will quite often find yourself just using the base class rather than extending it (although you are obviously welcome
+to do that):
+
+    var collection = new Mereology.Collection($("li"), ExampleModel);
+
+You may have noticed that there are two arguments when instantiating the _Collection_ object. The first is basically any
+array of objects (or a single object operating as a hash) that can be iterated over using the `jQuery.each()` function, in
+the example this is a jQuery object containing (presumably) many li elements. This argument denotes the items that will be
+added to the collection. This argument is sort of optional in that you can also call the member function _addMembers_ to
+add an array of items to the _Collection_.
+
+    var collection = new Mereology.Collection({}, ExampleModel);
+    collection.addMembers($("li"));
+
+The second argument is a constructor to wrap around the members of the array provided in the first argument. If nothing
+is supplied here then the members will be left as they are. The intention though is that you provide a model. The model
+constructor will be passed the element as its first argument so it is best to write your _Model_ in this way:
+
+    var ExampleModel = (function (m) {
+        m.__extends(ExampleModel, m.Model);
+
+        function ExampleModel(el){
+            this.element = $(el);
+            ...
+            ExampleModel.__super__.constructor.apply(this, arguments);
+        }
+
+        ...
+
+    })(Mereology);
+
