@@ -178,12 +178,14 @@ Mereology = (function () {
 
         Collection.prototype.wrap = function (payload) {
             // Test whether we have a callback
-            if (this.wrapper.prototype.mereology != undefined){
-                return new this.wrapper(payload);
-            }
-            if (typeof this.wrapper === "function"){
-                // Yes - it's a callback
-                return this.wrapper.call(this, payload);
+            if (this.wrapper){
+                if (this.wrapper.prototype.mereology != undefined){
+                    return new this.wrapper(payload);
+                }
+                if (typeof this.wrapper === "function"){
+                    // Yes - it's a callback
+                    return this.wrapper.call(this, payload);
+                }
             }
             // We can't wrap here at all so give the payload back
             return payload;
